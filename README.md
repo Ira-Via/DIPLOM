@@ -305,7 +305,98 @@ sudo systemctl enable zabbix-agent
 4: Тестирование  
 Проверьте работоспособность системы, убедитесь, что метрики отображаются на дешбордах и алерты срабатывают при превышении порогов.
 ## <a id="title4">4. Сбор логов</a>
-
+1: Создание виртуальных машин (ВМ)
+- Создайте две виртуальные машины:
+  - ВМ 1: Для Elasticsearch.
+  - ВМ 2: Для Kibana и Filebeat.
+2: Установка Elasticsearch
+- Подключитесь к ВМ 1 через SSH.
+- Обновите пакеты:
+```
+sudo apt update
+sudo apt upgrade
+```
+- Установите Java (Elasticsearch требует Java):
+```
+sudo apt install openjdk-11-jdk
+```
+- Добавьте репозиторий Elasticsearch и установите его:
+```
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+sudo apt update
+sudo apt install elasticsearch
+```
+- Запустите и активируйте Elasticsearch:
+```
+sudo systemctl start elasticsearch
+sudo systemctl enable elasticsearch
+```
+3: Установка Filebeat на веб-сервер
+- Подключитесь к ВМ 2 через SSH.
+- Обновите пакеты:
+```
+sudo apt update
+sudo apt upgrade
+```
+- Добавьте репозиторий Filebeat и установите его:
+```
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+sudo apt update
+sudo apt install filebeat
+```
+- Настройте Filebeat для отправки логов nginx:
+  - Откройте файл конфигурации Filebeat:
+```
+sudo nano /etc/filebeat/filebeat.yml
+```
+  - Найдите секцию filebeat.inputs и добавьте конфигурацию для nginx:
+```
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/nginx/access.log
+      - /var/log/nginx/error.log
+```
+  - Настройте выходные данные для Elasticsearch:
+```
+output.elasticsearch:
+  hosts: ["http://<IP_Elasticsearch_VM>:9200"]
+```
+- Запустите Filebeat:
+```
+sudo systemctl start filebeat
+sudo systemctl enable filebeat
+```
+4: Установка Kibana
+- Подключитесь к ВМ 2 через SSH.
+- Добавьте репозиторий Kibana и установите его:
+```
+sudo apt update
+sudo apt install kibana
+```
+- Настройте Kibana для подключения к Elasticsearch:
+  - Откройте файл конфигурации Kibana:
+```
+sudo nano /etc/kibana/kibana.yml
+```
+  - Настройте elasticsearch.hosts:
+```
+elasticsearch.hosts: ["http://<IP_Elasticsearch_VM>:9200"]
+```
+- Запустите и активируйте Kibana:
+```
+sudo systemctl start kibana
+sudo systemctl enable kibana
+```
+Шаг 5: Доступ к Kibana
+- Откройте веб-браузер и перейдите по адресу:
+```
+http://<IP_Kibana_VM>:5601
+```
+- Настройте индекс для отображения логов в Kibana.
 ## <a id="title5">5. Резервное копирование данных</a>
 
 ## <a id="title6">6. Управление безопасностью</a>
