@@ -97,7 +97,146 @@ all:
 - Убедитесь, что установленные пакеты работают.
 - Проверьте, что ВМ работают постоянно.
 ## <a id="title2">2. Создание окружения</a>
+1. Настройка VPC
+Для начала создайте VPC, который будет изолировать ваши ресурсы. В файле main.tf добавьте следующие ресурсы:
+```
+resource "yandex_vpc_network" "my_network" {
+  name = "my-network"
+}
 
+resource "yandex_vpc_subnet" "my_subnet" {
+  name           = "my-subnet"
+  zone           = "ru-central1-a"
+  network_id     = yandex_vpc_network.my_network.id
+  v4_cidr_block  = "192.168.0.0/24"
+}
+```
+Создайте аналогичную подсеть в другой зоне, например, ru-central1-b.
+2. Создание ВМ
+Создайте две ВМ в разных зонах, используя одинаковую конфигурацию:
+```
+resource "yandex_compute_instance" "web_server_a" {
+  name        = "web-server-a"
+  zone        = "ru-central1-a"
+  resources {
+    cores  = 2
+    memory = 4
+  }
+  boot_disk {
+    initialize_params {
+      image_id = "<YOUR_IMAGE_ID>"
+      size     = 10
+    }
+  }
+  network_interface {
+    subnet_id = yandex_vpc_subnet.my_subnet.id
+    nat       = false
+  }
+  metadata = {
+    hostname = "web-server-a"
+  }
+}
+
+resource "yandex_compute_instance" "web_server_b" {
+  name        = "web-server-b"
+  zone        = "ru-central1-b"
+  resources {
+    cores  = 2
+    memory = 4
+  }
+  boot_disk {
+    initialize_params {
+      image_id = "<YOUR_IMAGE_ID>"
+      size     = 10
+    }
+  }
+  network_interface {
+    subnet_id = yandex_vpc_subnet.my_subnet.id
+    nat       = false
+  }
+  metadata = {
+    hostname = "web-server-b"
+  }
+}
+```
+3. Настройка Ansible
+Создайте inventory.yml, используя FQDN имена:
+```
+all:
+  hosts:
+    web-server-a.ru-central1.internal:
+    web-server-b.ru-central1.internal:
+Создайте плейбук playbook.yml для установки Nginx и копирования статических файлов:
+
+- hosts: all
+  tasks:
+    - name: Установка Nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Копирование статических файлов
+      copy:
+        src: /path/to/your/static/files/
+        dest: /var/www/html/
+```
+4. Настройка балансировщика нагрузки
+Добавьте ресурсы для балансировщика нагрузки в main.tf:
+```
+resource "yandex_lb_network_load_balancer" "my_lb" {
+  name = "my-load-balancer"
+  region = "ru-central1"
+  
+  listener {
+    name = "listener-1"
+    port = 80
+    protocol = "TCP"
+  }
+
+  backend_group {
+    name = "backend-group"
+    target_group_id = yandex_lb_target_group.my_target_group.id
+  }
+}
+
+resource "yandex_lb_target_group" "my_target_group" {
+  name = "my-target-group"
+
+  healthcheck {
+    interval = 5
+    timeout = 3
+    healthy_threshold = 2
+    unhealthy_threshold = 2
+    protocol = "HTTP"
+    port = 80
+    path = "/"
+  }
+
+  backend {
+    target_id = yandex_compute_instance.web_server_a.id
+    port = 80
+  }
+
+  backend {
+    target_id = yandex_compute_instance.web_server_b.id
+    port = 80
+  }
+}
+
+resource "yandex_lb_http_router" "my_http_router" {
+  name = "my-http-router"
+
+  rule {
+    path = "/"
+    backend_group_id = yandex_lb_target_group.my_target_group.id
+  }
+}
+```
+5. Тестирование
+После развертывания всех ресурсов и настройки Nginx, протестируйте сайт с помощью curl:
+```
+curl -v http://<PUBLIC_IP_LOAD_BALANCER>:80
+```
 ## <a id="title3">3. Настройка мониторинга</a>
 
 ## <a id="title4">4. Сбор логов</a>
