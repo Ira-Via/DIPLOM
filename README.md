@@ -238,7 +238,72 @@ resource "yandex_lb_http_router" "my_http_router" {
 curl -v http://<PUBLIC_IP_LOAD_BALANCER>:80
 ```
 ## <a id="title3">3. Настройка мониторинга</a>
-
+1: Развертывание Zabbix на ВМ
+- Создайте ВМ:
+  - Выберите подходящую платформу (например, AWS, GCP, Azure или локальный сервер).
+  - Установите операционную систему (рекомендуется использовать Ubuntu или CentOS).
+- Установите Zabbix Server:
+  - Обновите систему:
+```
+sudo apt update && sudo apt upgrade -y
+```
+  - Установите необходимые пакеты:
+```
+sudo apt install wget curl gnupg2 -y
+```
+  - Добавьте репозиторий Zabbix:
+```
+wget https://repo.zabbix.com/zabbix/6.0/ubuntu/pool/main/z/zabbix/zabbix-release_6.0-2+ubuntu20.04_all.deb
+sudo dpkg -i zabbix-release_6.0-2+ubuntu20.04_all.deb
+sudo apt update
+```
+  - Установите Zabbix Server, веб-интерфейс и базу данных (например, PostgreSQL):
+```
+sudo apt install zabbix-server-pgsql zabbix-frontend-php zabbix-agent -y
+```
+  - Настройте базу данных и пользователя для Zabbix.
+- Настройка конфигурации Zabbix:
+  - Отредактируйте файл конфигурации Zabbix Server:
+```
+sudo nano /etc/zabbix/zabbix_server.conf
+```
+  - Укажите параметры подключения к базе данных.
+- Запустите Zabbix Server:
+```
+sudo systemctl start zabbix-server
+sudo systemctl enable zabbix-server
+```
+2: Установка Zabbix Agent на другие ВМ
+- Установите Zabbix Agent:
+  - На каждой целевой ВМ выполните:
+```
+sudo apt install zabbix-agent -y
+```
+- Настройте Zabbix Agent:
+  - Отредактируйте файл конфигурации агента:
+```
+sudo nano /etc/zabbix/zabbix_agentd.conf
+```
+- Укажите IP-адрес Zabbix Server в параметре Server и ServerActive.
+  - Запустите Zabbix Agent:
+```
+sudo systemctl start zabbix-agent
+sudo systemctl enable zabbix-agent
+```
+3: Настройка дешбордов и алертов
+- Добавьте хосты в Zabbix:  
+В веб-интерфейсе Zabbix перейдите в раздел Configuration > Hosts и добавьте ваши ВМ как хосты.
+- Настройка шаблонов:  
+Используйте встроенные шаблоны для мониторинга CPU, RAM, дисков, сети и HTTP-запросов.  
+Примените шаблоны к вашим хостам.  
+- Создание дешбордов:  
+Перейдите в раздел Dashboard и создайте новый дешборд.  
+Добавьте виджеты для отображения метрик по принципу USE (Utilization, Saturation, Errors) для CPU, RAM, дисков, сети и HTTP-запросов.
+- Настройка алертов:  
+В разделе Configuration > Actions создайте новые действия для отправки уведомлений при превышении порогов.  
+Установите необходимые thresholds для CPU, RAM и других метрик.
+4: Тестирование  
+Проверьте работоспособность системы, убедитесь, что метрики отображаются на дешбордах и алерты срабатывают при превышении порогов.
 ## <a id="title4">4. Сбор логов</a>
 
 ## <a id="title5">5. Резервное копирование данных</a>
