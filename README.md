@@ -238,7 +238,7 @@ resource "yandex_lb_http_router" "my_http_router" {
 curl -v http://<PUBLIC_IP_LOAD_BALANCER>:80
 ```
 ## <a id="title3">3. Настройка мониторинга</a>
-1: Развертывание Zabbix на ВМ
+1. Развертывание Zabbix на ВМ
 - Создайте ВМ:
   - Выберите подходящую платформу (например, AWS, GCP, Azure или локальный сервер).
   - Установите операционную систему (рекомендуется использовать Ubuntu или CentOS).
@@ -273,7 +273,7 @@ sudo nano /etc/zabbix/zabbix_server.conf
 sudo systemctl start zabbix-server
 sudo systemctl enable zabbix-server
 ```
-2: Установка Zabbix Agent на другие ВМ
+2. Установка Zabbix Agent на другие ВМ
 - Установите Zabbix Agent:
   - На каждой целевой ВМ выполните:
 ```
@@ -290,7 +290,7 @@ sudo nano /etc/zabbix/zabbix_agentd.conf
 sudo systemctl start zabbix-agent
 sudo systemctl enable zabbix-agent
 ```
-3: Настройка дешбордов и алертов
+3. Настройка дешбордов и алертов
 - Добавьте хосты в Zabbix:  
 В веб-интерфейсе Zabbix перейдите в раздел Configuration > Hosts и добавьте ваши ВМ как хосты.
 - Настройка шаблонов:  
@@ -302,14 +302,14 @@ sudo systemctl enable zabbix-agent
 - Настройка алертов:  
 В разделе Configuration > Actions создайте новые действия для отправки уведомлений при превышении порогов.  
 Установите необходимые thresholds для CPU, RAM и других метрик.
-4: Тестирование  
+4. Тестирование  
 Проверьте работоспособность системы, убедитесь, что метрики отображаются на дешбордах и алерты срабатывают при превышении порогов.
 ## <a id="title4">4. Сбор логов</a>
-1: Создание виртуальных машин (ВМ)
+1. Создание виртуальных машин (ВМ)
 - Создайте две виртуальные машины:
   - ВМ 1: Для Elasticsearch.
   - ВМ 2: Для Kibana и Filebeat.
-2: Установка Elasticsearch
+2. Установка Elasticsearch
 - Подключитесь к ВМ 1 через SSH.
 - Обновите пакеты:
 ```
@@ -332,7 +332,7 @@ sudo apt install elasticsearch
 sudo systemctl start elasticsearch
 sudo systemctl enable elasticsearch
 ```
-3: Установка Filebeat на веб-сервер
+3. Установка Filebeat на веб-сервер
 - Подключитесь к ВМ 2 через SSH.
 - Обновите пакеты:
 ```
@@ -370,7 +370,7 @@ output.elasticsearch:
 sudo systemctl start filebeat
 sudo systemctl enable filebeat
 ```
-4: Установка Kibana
+4. Установка Kibana
 - Подключитесь к ВМ 2 через SSH.
 - Добавьте репозиторий Kibana и установите его:
 ```
@@ -391,14 +391,83 @@ elasticsearch.hosts: ["http://<IP_Elasticsearch_VM>:9200"]
 sudo systemctl start kibana
 sudo systemctl enable kibana
 ```
-Шаг 5: Доступ к Kibana
+5. Доступ к Kibana
 - Откройте веб-браузер и перейдите по адресу:
 ```
 http://<IP_Kibana_VM>:5601
 ```
 - Настройте индекс для отображения логов в Kibana.
 ## <a id="title5">5. Резервное копирование данных</a>
+1. Создание снимков дисков ВМ
+- Войдите в Yandex Cloud Console.
+- Перейдите в раздел "Compute Cloud".
+- Выберите виртуальные машины, для которых вы хотите создать снимки.
+- Создайте снимок для каждой ВМ:
+  - Выберите нужную ВМ и перейдите в её настройки.
+  - Нажмите на кнопку "Создать снимок".
+  - Укажите имя снимка и выберите диск, для которого хотите создать снимок.
+  - Нажмите "Создать".
+2. Настройка автоматического создания снимков
+Для автоматизации процесса создания снимков можно использовать Yandex Cloud Functions или Yandex Cloud Scheduler. Рассмотрим использование Yandex Cloud Scheduler:  
+- Создайте функцию для создания снимков:
+  - Перейдите в раздел "Yandex Cloud Functions".
+  - Нажмите "Создать функцию".
+  - Выберите язык программирования (например, Python).
+  - Введите код, который будет создавать снимки:
+```
+import os
+import yandexcloud
+from yandexcloud import SDK
 
+def create_snapshot(event, context):
+    sdk = SDK()
+    compute = sdk.client('compute')
+    
+    # Замените на ID вашей ВМ
+    vm_ids = ['<YOUR_VM_ID_1>', '<YOUR_VM_ID_2>']
+    
+    for vm_id in vm_ids:
+        snapshot_name = f'snapshot-{vm_id}-{int(time.time())}'
+        compute.create_snapshot(
+            folder_id='<YOUR_FOLDER_ID>',
+            name=snapshot_name,
+            disk_id=vm_id
+        )
+```
+- Настройте триггер для запуска функции:
+  - Перейдите в раздел "Yandex Cloud Scheduler".
+  - Создайте новую задачу, выбрав вашу функцию.
+  - Установите расписание на ежедневное выполнение.
+3. Ограничение времени жизни снимков
+Чтобы ограничить время жизни снимков, вы можете использовать Yandex Cloud Functions для удаления старых снимков. Вот пример кода для удаления снимков старше недели:
+```
+import time
+from datetime import datetime, timedelta
+import yandexcloud
+from yandexcloud import SDK
+
+def delete_old_snapshots(event, context):
+    sdk = SDK()
+    compute = sdk.client('compute')
+    
+    # Получаем список всех снимков
+    snapshots = compute.list_snapshots(folder_id='<YOUR_FOLDER_ID>')
+    
+    # Устанавливаем дату, старше которой снимки будут удалены
+    expiration_date = datetime.now() - timedelta(weeks=1)
+
+    for snapshot in snapshots:
+        if snapshot.created_at < expiration_date:
+            compute.delete_snapshot(snapshot.id)
+```
+4. Настройка автоматического удаления старых снимков
+- Создайте новую функцию в Yandex Cloud Functions для удаления старых снимков.
+- Настройте триггер для запуска этой функции, например, раз в неделю.
+5. Хранение резервных копий в Yandex Cloud Storage
+Если вы хотите дополнительно хранить резервные копии в Yandex Cloud Storage, вы можете использовать команду yc storage cp для копирования файлов или снимков в облачное хранилище. Например:
+```
+yc storage cp /path/to/snapshot s3://your-bucket-name/
+```
 ## <a id="title6">6. Управление безопасностью</a>
 
 ## <a id="title7">7. Тестирование отказоустойчивости</a>
