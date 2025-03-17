@@ -67,15 +67,15 @@
   - Скачиваем Cygwin [1](#title13)
   - Устанавливаем Cygwin
   - Поиск Ansible:  
-![устатовка анзибл](https://github.com/user-attachments/assets/369b14df-3611-48f5-a94a-7e70b2311de9)
+![устатовка анзибл](https://github.com/user-attachments/assets/369b14df-3611-48f5-a94a-7e70b2311de9)  
   - подтверждаем изменения:  
-![устатовка анзибл 1](https://github.com/user-attachments/assets/c05c1d5c-6d0e-4b15-9db5-874eecef3de6)
+![устатовка анзибл 1](https://github.com/user-attachments/assets/c05c1d5c-6d0e-4b15-9db5-874eecef3de6)  
   - Установка Ansible:  
-![устатовка анзибл 2](https://github.com/user-attachments/assets/ec36e40c-f9c5-4735-abd7-02dd8ef768c3)
-  - Завершение установки Ansible:
-![устатовка анзибл 3](https://github.com/user-attachments/assets/daf84ecc-d50b-46eb-8a69-7217ef1af9c6)
-  - Заходим в Cygwin Terminal и проверяем:
-![устатовка анзибл 4](https://github.com/user-attachments/assets/693d91dc-6668-494c-a94c-d3420d1a7ca6)
+![устатовка анзибл 2](https://github.com/user-attachments/assets/ec36e40c-f9c5-4735-abd7-02dd8ef768c3)  
+  - Завершение установки Ansible:  
+![устатовка анзибл 3](https://github.com/user-attachments/assets/daf84ecc-d50b-46eb-8a69-7217ef1af9c6)  
+  - Заходим в Cygwin Terminal и проверяем:  
+![устатовка анзибл 4](https://github.com/user-attachments/assets/693d91dc-6668-494c-a94c-d3420d1a7ca6)  
 3. Yandex CLI:
 - Установка Yandex CLI  
 ![image](https://github.com/user-attachments/assets/31e46e8a-b650-41f4-874f-84dab871eafb)
@@ -87,7 +87,7 @@
 ### 1.4. Создание конфигурации Terraform
 Создаем файл main.tf, в котором опишите необходимые ресурсы.  
 ![image](https://github.com/user-attachments/assets/1742f201-ae9d-420d-8b02-b72bbfd9386d)  
-![image](https://github.com/user-attachments/assets/f5c6af55-9e13-4e73-a9d9-2415ff2d30e1)  
+![image](https://github.com/user-attachments/assets/ed1f41be-7930-47e6-b313-aa0b7feb5de1)
 ### 1.5. Настройка Ansible
 Создайте файл inventory.yml, используя FQDN имена ВМ:
 ```
