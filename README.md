@@ -55,15 +55,15 @@
 - Переносим в Диск С папку Terraform
 - Открываем свойства системы, заходим в переменные среды  
 ![установка терраформ](https://github.com/user-attachments/assets/06d87ccd-3904-46ab-8540-8a076f3fab09)
-- Системные среды -> PATH
+- Системные среды -> PATH. 
 ![установка терраформ 1](https://github.com/user-attachments/assets/7169c39a-06c0-43b4-ae27-5c6e75333283)
-- 
+- Вносим изменения Terraform. 
 ![установка терраформ 2 2](https://github.com/user-attachments/assets/2540aeea-4076-4b69-bfc8-9267983953d9)
-- 
+- Проверяем в командной строке. 
 ![установка терраформ 3](https://github.com/user-attachments/assets/287bf879-7835-491e-a433-e886381a16c6)
 2. Ansible: Установка Ansible
-Yandex CLI: Установка Yandex CLI
-3. Создание конфигурации Terraform
+3. Yandex CLI: Установка Yandex CLI
+### 1.4. Создание конфигурации Terraform
 Создайте файл main.tf, в котором опишите необходимые ресурсы. Пример конфигурации для создания одной ВМ:
 ```
 provider "yandex" {
