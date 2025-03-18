@@ -82,8 +82,12 @@
 - Создаем платежный аккаунт  
 ![image](https://github.com/user-attachments/assets/a0b9c839-c1f2-48fe-8d1f-27d06337ebb3)
 - По ссылке [2](#title14) переходим для получения токена.
-- После настраиваем создание профиля через командную строку через ссылку [3](#title15)
-![image](https://github.com/user-attachments/assets/940fc6b1-e1f1-4b1f-8c75-123dedce5903)
+- После настраиваем создание профиля через командную строку при помощи ссылки [3](#title15)  
+![Яндекс Клауд](https://github.com/user-attachments/assets/919cefa6-e2b1-4d32-a631-86c58028cf51)  
+![Яндекс Клауд 1 1](https://github.com/user-attachments/assets/a8594a5a-2bdc-4c03-81c5-2ac951a1e72d)  
+![Яндекс Клауд 2](https://github.com/user-attachments/assets/a3b7ad7f-877c-4918-a70a-167957def89e)
+Информацию о подсети можно найти в приложении:  
+![IMG_20250318_101911_254](https://github.com/user-attachments/assets/f133e167-8bdd-46a2-b7dc-a860471b56d4)
 ### 1.4. Создание конфигурации Terraform
 Создаем файл main.tf, в котором опишите необходимые ресурсы.  
 ![image](https://github.com/user-attachments/assets/1742f201-ae9d-420d-8b02-b72bbfd9386d)  
