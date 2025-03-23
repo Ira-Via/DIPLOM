@@ -82,8 +82,7 @@
 - Создаем платежный аккаунт  
 ![image](https://github.com/user-attachments/assets/a0b9c839-c1f2-48fe-8d1f-27d06337ebb3)
 - По ссылке [2](#title14) переходим для получения токена.
-- После настраиваем создание профиля через командную строку при помощи ссылки [3](#title15)  
-![Яндекс Клауд](https://github.com/user-attachments/assets/919cefa6-e2b1-4d32-a631-86c58028cf51)  
+- После настраиваем создание профиля через командную строку при помощи ссылки [3](#title15)    
 ![002](https://github.com/user-attachments/assets/d7d17367-ece6-4a02-9f96-7a3c679e3fde)  
 ![005](https://github.com/user-attachments/assets/6abbb55b-09ab-4987-909f-f73a892529d2)  
 ![006](https://github.com/user-attachments/assets/4949c961-bc03-4949-ae8b-54425e36546c)  
