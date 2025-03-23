@@ -85,7 +85,7 @@
 - После настраиваем создание профиля через командную строку при помощи ссылки [3](#title15)    
 ![002](https://github.com/user-attachments/assets/d7d17367-ece6-4a02-9f96-7a3c679e3fde)  
 ![005](https://github.com/user-attachments/assets/6abbb55b-09ab-4987-909f-f73a892529d2)  
-![006](https://github.com/user-attachments/assets/4949c961-bc03-4949-ae8b-54425e36546c)  
+![image](https://github.com/user-attachments/assets/c8dc9c91-d0f7-45d9-a91f-937782d257af)  
 ### 1.4. Создание конфигурации Terraform
 Создаем файл main.tf, в котором опишите необходимые ресурсы.  
 ![image](https://github.com/user-attachments/assets/1742f201-ae9d-420d-8b02-b72bbfd9386d)  
