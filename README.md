@@ -84,10 +84,10 @@
 - По ссылке [2](#title14) переходим для получения токена.
 - После настраиваем создание профиля через командную строку при помощи ссылки [3](#title15)    
 ![002](https://github.com/user-attachments/assets/d7d17367-ece6-4a02-9f96-7a3c679e3fde)  
-![005](https://github.com/user-attachments/assets/6abbb55b-09ab-4987-909f-f73a892529d2)  
-![image](https://github.com/user-attachments/assets/c8dc9c91-d0f7-45d9-a91f-937782d257af)  
 ### 1.4. Создание конфигурации Terraform
-Создаем файл main.tf, в котором опишите необходимые ресурсы.  
+Создаем файл main.tf, в котором опишите необходимые ресурсы.
+![005](https://github.com/user-attachments/assets/6abbb55b-09ab-4987-909f-f73a892529d2)  
+![image](https://github.com/user-attachments/assets/c8dc9c91-d0f7-45d9-a91f-937782d257af)   
 ![image](https://github.com/user-attachments/assets/1742f201-ae9d-420d-8b02-b72bbfd9386d)  
 ![image](https://github.com/user-attachments/assets/ed1f41be-7930-47e6-b313-aa0b7feb5de1)
 ### 1.5. Настройка Ansible
