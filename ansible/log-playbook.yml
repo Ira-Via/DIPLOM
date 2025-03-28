@@ -1,0 +1,15 @@
+- hosts: elasticsearch
+  remote_user: mashkov
+  become: yes
+  become_method: sudo
+  roles:
+    - elasticsearch
+    - node_exporter
+
+- hosts: kibana
+  remote_user: mashkov
+  become: yes
+  become_method: sudo
+  roles:
+    - kibana
+    - node_exporter
