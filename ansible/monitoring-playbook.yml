@@ -1,0 +1,14 @@
+- hosts: prometheus
+  remote_user: mashkov
+  become: yes
+  become_method: sudo
+  roles:
+    - prometheus
+
+- hosts: grafana
+  remote_user: mashkov
+  become: yes
+  become_method: sudo
+  roles:
+    - grafana
+    - node_exporter
