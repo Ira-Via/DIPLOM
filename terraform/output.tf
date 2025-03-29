@@ -35,7 +35,7 @@ output "output-ansible-hosts" {
   value = <<OUTPUT
 
 [bastionhost]
-bastion-host ansible_host=${yandex_compute_instance.bastion-host.network_interface.0.nat_ip_address} ansible_ssh_user=mashkov
+bastion-host ansible_host=${yandex_compute_instance.bastion-host.network_interface.0.nat_ip_address} ansible_ssh_user=vasyaeva
 
 [webservers]
 web1 ansible_host=${yandex_compute_instance.web-server1.network_interface.0.ip_address}
@@ -54,24 +54,24 @@ elasticsearch-host ansible_host=${yandex_compute_instance.elasticsearch.network_
 kibana-host ansible_host=${yandex_compute_instance.kibana.network_interface.0.ip_address}
 
 [webservers:vars]
-ansible_ssh_user=mashkov
-ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p mashkov@${yandex_compute_instance.bastion-host.network_interface.0.nat_ip_address}"'
+ansible_ssh_user=vasyaeva
+ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p vasyaeva@${yandex_compute_instance.bastion-host.network_interface.0.nat_ip_address}"'
 
 [prometheus:vars]
-ansible_ssh_user=mashkov
-ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p mashkov@${yandex_compute_instance.bastion-host.network_interface.0.nat_ip_address}"'
+ansible_ssh_user=vasyaeva
+ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p vasyaeva@${yandex_compute_instance.bastion-host.network_interface.0.nat_ip_address}"'
 
 [grafana:vars]
-ansible_ssh_user=mashkov
-ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p mashkov@${yandex_compute_instance.bastion-host.network_interface.0.nat_ip_address}"'
+ansible_ssh_user=vasyaeva
+ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p vasyaeva@${yandex_compute_instance.bastion-host.network_interface.0.nat_ip_address}"'
 
 [elasticsearch:vars]
-ansible_ssh_user=mashkov
-ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p mashkov@${yandex_compute_instance.bastion-host.network_interface.0.nat_ip_address}"'
+ansible_ssh_user=vasyaeva
+ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p vasyaeva@${yandex_compute_instance.bastion-host.network_interface.0.nat_ip_address}"'
 
 [kibana:vars]
-ansible_ssh_user=mashkov
-ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p mashkov@${yandex_compute_instance.bastion-host.network_interface.0.nat_ip_address}"'
+ansible_ssh_user=vasyaeva
+ansible_ssh_common_args='-o ProxyCommand="ssh -W %h:%p vasyaeva@${yandex_compute_instance.bastion-host.network_interface.0.nat_ip_address}"'
 
 OUTPUT
 }
