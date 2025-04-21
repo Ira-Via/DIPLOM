@@ -89,6 +89,12 @@
 ![image](https://github.com/user-attachments/assets/1742f201-ae9d-420d-8b02-b72bbfd9386d)  
 ![image](https://github.com/user-attachments/assets/c8dc9c91-d0f7-45d9-a91f-937782d257af)  
 ![005](https://github.com/user-attachments/assets/6abbb55b-09ab-4987-909f-f73a892529d2)  
+![image](https://github.com/user-attachments/assets/028ec880-14b4-4656-8bd8-a6b9c67636c8)  
+![image](https://github.com/user-attachments/assets/73552dd9-c2e5-4c08-8fdc-9198a1800f14)  
+![image](https://github.com/user-attachments/assets/fb359adc-eb1f-4472-acdc-78ebbb77ff56)  
+![image](https://github.com/user-attachments/assets/62fb04eb-5649-4f2f-a6b8-dafe00a430f0)  
+![image](https://github.com/user-attachments/assets/15376078-fc60-461c-9f20-c201fbbfdbcb)  
+
 ### 1.5. Настройка Ansible
 Создайте файл inventory.yml, используя FQDN имена ВМ:
 ```
